@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+
+<!-- ======================= FRAGMENT : HEAD ======================= -->
+<head th:fragment="pageHead(title)">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${title} + ' • École de Musique 🎵'">École de Musique</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎵%3C/text%3E%3C/svg%3E"/>
+</head>
+
+<!-- ======================= FRAGMENT : NAVBAR ======================= -->
+<nav th:fragment="navbar(active)" class="navbar">
+    <div class="navbar-inner">
+        <a th:href="@{/}" class="brand">
+            <span class="emoji-bounce">🎼</span>
+            <span>École de Musique</span>
+        </a>
+        <ul class="nav-links">
+            <li>
+                <a th:href="@{/}"
+                   th:classappend="${active == 'dashboard'} ? 'active' : ''">
+                    <span>🏠</span> Dashboard
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/instruments}"
+                   th:classappend="${active == 'instruments'} ? 'active' : ''">
+                    <span>🎸</span> Instruments
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/profs}"
+                   th:classappend="${active == 'profs'} ? 'active' : ''">
+                    <span>👩‍🏫</span> Professeurs
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/cours}"
+                   th:classappend="${active == 'cours'} ? 'active' : ''">
+                    <span>📅</span> Cours
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/h2-console}" target="_blank">
+                    <span>🗄️</span> H2
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ======================= FRAGMENT : FOOTER ======================= -->
+<footer th:fragment="footer" class="footer">
+    <p>
+        <span class="footer-emoji">🎵</span>
+        Fait avec amour pour le module <strong>Développement Jakarta EE</strong>
+        <span class="footer-emoji">🎶</span>
+    </p>
+    <p style="margin-top: 0.5rem; opacity: 0.75; font-size: 0.9rem;">
+        Spring Boot 3 • Spring Data JPA • Thymeleaf • H2
+        <span class="footer-emoji">🪄</span>
+    </p>
+</footer>
+
+<!-- ======================= FRAGMENT : ALERTS (flash) ======================= -->
+<div th:fragment="alerts">
+    <div th:if="${success}" class="alert alert-success">
+        <span>✨</span> <span th:text="${success}">Message</span>
+    </div>
+    <div th:if="${error}" class="alert alert-danger">
+        <span>⚠️</span> <span th:text="${error}">Erreur</span>
+    </div>
+</div>
+
+</body>
+</html>

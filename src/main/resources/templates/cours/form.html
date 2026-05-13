@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: pageHead('Cours')}"></head>
+<body>
+
+<div class="layout">
+    <nav th:replace="~{fragments/layout :: navbar('cours')}"></nav>
+
+    <main class="container">
+
+        <div class="page-header">
+            <h1>
+                <span th:if="${isEdit}">✏️ Modifier le cours</span>
+                <span th:unless="${isEdit}">✨ Planifier un cours</span>
+            </h1>
+            <p class="subtitle">Choisissez le jour, l'heure, le niveau et le professeur</p>
+        </div>
+
+        <form class="form-card" th:action="@{/cours/save}" th:object="${cours}" method="post">
+            <input type="hidden" th:field="*{id}"/>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="jour"><span>📆</span> Jour</label>
+                    <select id="jour" th:field="*{jour}">
+                        <option value="">-- Choisir un jour --</option>
+                        <option th:each="j : ${jours}" th:value="${j}" th:text="${j}"></option>
+                    </select>
+                    <div class="field-error" th:if="${#fields.hasErrors('jour')}" th:errors="*{jour}"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="heureDebut"><span>⏰</span> Heure de début</label>
+                    <input type="time" id="heureDebut" th:field="*{heureDebut}"/>
+                    <div class="field-error" th:if="${#fields.hasErrors('heureDebut')}" th:errors="*{heureDebut}"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="dureeMin"><span>⏱️</span> Durée (minutes)</label>
+                    <input type="number" id="dureeMin" th:field="*{dureeMin}" min="1" max="240" placeholder="60"/>
+                    <div class="field-error" th:if="${#fields.hasErrors('dureeMin')}" th:errors="*{dureeMin}"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="niveau"><span>🎯</span> Niveau</label>
+                    <select id="niveau" th:field="*{niveau}">
+                        <option value="">-- Choisir un niveau --</option>
+                        <option th:each="n : ${niveaux}" th:value="${n}" th:text="${n}"></option>
+                    </select>
+                    <div class="field-error" th:if="${#fields.hasErrors('niveau')}" th:errors="*{niveau}"></div>
+                </div>
+
+                <div class="form-group full">
+                    <label for="profId"><span>👩‍🏫</span> Professeur assigné</label>
+                    <select id="profId" name="profId">
+                        <option value="">-- Aucun professeur (à assigner plus tard) --</option>
+                        <option th:each="p : ${profs}"
+                                th:value="${p.id}"
+                                th:text="${p.nom} + ' (' + ${p.specialite} + ')'"
+                                th:selected="${cours.prof != null and cours.prof.id == p.id}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <a th:href="@{/cours}" class="btn btn-secondary"><span>↩️</span> Annuler</a>
+                <button type="submit" class="btn btn-primary">
+                    <span th:if="${isEdit}">💾 Mettre à jour</span>
+                    <span th:unless="${isEdit}">✨ Planifier</span>
+                </button>
+            </div>
+        </form>
+
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+</div>
+
+</body>
+</html>
